@@ -8,7 +8,6 @@ A simple **anonymous messaging app** built with vanilla **HTML, CSS, and JavaScr
 
 * **Frontend:** HTML, CSS, JavaScript (no frameworks)
 * **Backend & Database:** Firebase Realtime Database
-* **Hosting (optional):** Firebase Hosting
 
 ---
 
