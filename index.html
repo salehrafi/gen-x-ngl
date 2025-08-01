@@ -49,7 +49,7 @@
       const msg = document.getElementById("message");
 
       if (!username || !password) {
-        msg.textContent = "ইউজারনেম এবং পাসওয়ার্ড দুইটাই দিতে হবে!";
+        msg.textContent = "Username & Password required";
         msg.style.color = "red";
         return;
       }
@@ -69,7 +69,7 @@
             }, 1000);
           } else {
             msg.style.color = "red";
-            msg.textContent = "পাসওয়ার্ড ভুল!";
+            msg.textContent = "Wrong Password!";
           }
         } else {
           // Register (New Account)
