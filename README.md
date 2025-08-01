@@ -24,6 +24,6 @@ A simple **anonymous messaging app** built with vanilla **HTML, CSS, and JavaScr
 
 ## Deployed on vercel
 
-[Visit](https://gen-x-ngl.vercel.app/)
+* Send Text enjoy what peopls are thinking about you - [Visit](https://gen-x-ngl.vercel.app/)
 
 ---
