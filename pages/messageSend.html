@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Leave a message to me</title>
+    <link rel="stylesheet" href="/style/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+    <script src="/logic/firebase_conn.js"></script>
+
+</head>
+
+<body>
+
+    <h2>Send an anonymous message!! Share your confusion!!</h2>
+
+    <form id="messageForm">
+        <label for="message">Express your confusion: </label>
+        <textarea id="message" rows="6" required></textarea>
+        <button type="submit">Send</button>
+    </form>
+
+    <!-- Custom Alert Popup -->
+    <div id="customAlert"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); justify-content:center; align-items:center; z-index:9999;">
+        <div
+            style="background:#fff; padding:25px 20px; border-radius:10px; box-shadow:0 8px 24px rgba(0,0,0,0.2); text-align:center; max-width:90%; width:300px; position:relative;">
+            <h3 id="alertTitle" style="margin-top:0; color:#28a745;"></h3>
+            <p id="alertMessage" style="font-size:16px; color:#444;"></p>
+            <button onclick="hideCustomAlert()"
+                style="margin-top:15px; padding:8px 18px; background-color:#28a745; color:white; border:none; border-radius:6px; cursor:pointer;">Done</button>
+            <span onclick="hideCustomAlert()"
+                style="position:absolute; top:8px; right:12px; font-size:20px; cursor:pointer;">&times;</span>
+        </div>
+    </div>
+
+    <script>
+        // Get username from URL
+        const queryParams = new URLSearchParams(window.location.search);
+        const recipientUser = decodeURIComponent(queryParams.get("user"));
+
+        if (!recipientUser) {
+            document.body.innerHTML = "<p style='color:red; text-align:center; margin-top:50px;'>ইউজারনেম পাওয়া যায়নি! লিংকটি সঠিক নয়।</p>";
+            throw new Error("User parameter missing in URL.");
+        }
+
+        document.getElementById("messageForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const message = document.getElementById("message").value.trim();
+
+            if (!message) {
+                showCustomAlert("একটি মেসেজ লিখুন", "ফাঁকা মেসেজ পাঠানো যাবে না", "#dc3545");
+                return;
+            }
+
+            db.collection("messages").add({
+                user: recipientUser,
+                message: message,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+                .then(() => {
+                    showCustomAlert("Success!", "মেসেজ পাঠানো হয়েছে", "#28a745");
+                    document.getElementById("messageForm").reset();
+                })
+                .catch((error) => {
+                    console.error("Error sending message:", error);
+                    showCustomAlert("Error!", "Error to send message", "#dc3545");
+                });
+
+        });
+
+        function showCustomAlert(title, message, color) {
+            document.getElementById("alertTitle").innerText = title;
+            document.getElementById("alertTitle").style.color = color;
+            document.getElementById("alertMessage").innerText = message;
+            document.getElementById("customAlert").style.display = "flex";
+        }
+
+        function hideCustomAlert() {
+            document.getElementById("customAlert").style.display = "none";
+        }
+    </script>
+
+    <footer>
+        <i>developed by <a href="https://saleh-rafi.vercel.app/" target="_blank">Rafi</a> - 2025</i>
+    </footer>
+
+</body>
+</html>

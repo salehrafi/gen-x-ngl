@@ -1,0 +1,103 @@
+body {
+    font-family: 'Hind Siliguri', sans-serif;
+    max-width: 500px;
+    margin: auto;
+    padding: 30px;
+    background-color: #f0f2f5;
+}
+
+.container {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h2 {
+    color: #333;
+}
+
+p {
+    font-size: 16px;
+    color: #444;
+    margin: 15px 0;
+}
+
+.link-box {
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px dashed #28a745;
+    word-break: break-all;
+    margin-bottom: 20px;
+}
+
+button {
+    margin: 10px 5px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-btn {
+    background-color: #dc3545;
+}
+
+#messages {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.msg-box {
+    background-color: #e9ecef;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+}
+
+.msg-time {
+    font-size: 12px;
+    color: #666;
+    text-align: right;
+}
+
+.link-box-row {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px dashed #28a745;
+    overflow: hidden;
+}
+
+.link-text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: text;
+    font-size: 14px;
+}
+
+.copy-btn {
+    margin-left: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.copy-status {
+    font-size: 14px;
+    color: green;
+    margin-top: 8px;
+}

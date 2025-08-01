@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Auth - Gen-X-NGL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style/index.css">
+
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+  <script src="/logic/firebase_conn.js"></script>
+
+</head>
+
+<body>
+
+  <h2>Authentication</h2>
+  <div>
+    <p style="text-align: center; font-size: 10px; color: rgb(255, 255, 255);">ইউজারনেম ও পাসওয়ার্ড সঠিক হলে লগ-ইন হবে, অন্যথায় একটা
+      নতুন
+      একাউন্ট হিসেবে রেজিস্ট্রার্ড হবে!!</p>
+    <br>
+  </div>
+
+  <form id="authForm">
+    <label for="username">ইউজারনেম:</label>
+    <input type="text" id="username" required>
+    <br>
+    <label for="password">পাসওয়ার্ড:</label>
+    <input type="password" id="password" required>
+    <br>
+    <button type="submit">চালিয়ে যান</button>
+  </form>
+
+
+  <div id="message" class="message"></div>
+
+  <script>
+    document.getElementById("authForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value.trim().toLowerCase();
+      const password = document.getElementById("password").value;
+      const msg = document.getElementById("message");
+
+      if (!username || !password) {
+        msg.textContent = "ইউজারনেম এবং পাসওয়ার্ড দুইটাই দিতে হবে!";
+        msg.style.color = "red";
+        return;
+      }
+
+      const userRef = db.collection("users").doc(username);
+
+      userRef.get().then((doc) => {
+        if (doc.exists) {
+          // Login
+          const data = doc.data();
+          if (data.password === password) {
+            localStorage.setItem("loggedInUser", username);
+            msg.style.color = "green";
+            msg.textContent = "Login Successful";
+            setTimeout(() => {
+              window.location.href = "/pages/profile.html";
+            }, 1000);
+          } else {
+            msg.style.color = "red";
+            msg.textContent = "পাসওয়ার্ড ভুল!";
+          }
+        } else {
+          // Register (New Account)
+          userRef.set({
+            password: password,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          }).then(() => {
+            localStorage.setItem("loggedInUser", username);
+            msg.style.color = "green";
+            msg.textContent = "No Username found, New Account Created!!";
+            setTimeout(() => {
+              window.location.href = "/pages/profile.html";
+            }, 1000);
+          }).catch((error) => {
+            console.error(error);
+            msg.style.color = "red";
+            msg.textContent = "Something is error!!";
+          });
+        }
+      });
+    });
+
+  </script>
+
+  <footer style="text-align: center; margin-top: 30px;">
+    <i>developed by <a href="https://saleh-rafi.vercel.app/">Rafi</a> - 2025</i>
+  </footer>
+
+</body>
+
+</html>
