@@ -21,14 +21,14 @@
         <h2 id="welcomeMessage">স্বাগতম!</h2>
         <p>তোমার মেসেজ লিংক:</p>
         <div class="link-box-row">
-            <span id="messageLink" class="link-text" title="লিংক কপি করুন"></span>
-            <button onclick="copyLink()" title="কপি করুন" class="copy-btn">Copy</button>
+            <span id="messageLink" class="link-text" ></span>
+            <button onclick="copyLink()" class="copy-btn">Copy</button>
         </div>
         <div id="copyStatus" class="copy-status"></div>
 
 
-        <button onclick="showMessages()"> মেসেজ দেখো</button>
-        <button class="logout-btn" onclick="logout()">লগ আউট</button>
+        <button onclick="showMessages()"> Refresh Messages</button>
+        <button class="logout-btn" onclick="logout()">Log Out</button>
 
         <div id="messages"></div>
     </div>
@@ -51,12 +51,12 @@
         function copyLink() {
             const text = document.getElementById("messageLink").innerText;
             navigator.clipboard.writeText(text).then(() => {
-                document.getElementById("copyStatus").innerText = "কপি হয়েছে!";
+                document.getElementById("copyStatus").innerText = "Link Copied!!";
                 setTimeout(() => {
                     document.getElementById("copyStatus").innerText = "";
                 }, 2000);
             }).catch(err => {
-                document.getElementById("copyStatus").innerText = "কপি করা যায়নি!";
+                document.getElementById("copyStatus").innerText = "Error!! Not copied..";
             });
         }
         function logout() {
@@ -66,7 +66,7 @@
 
         function showMessages() {
             const msgDiv = document.getElementById("messages");
-            msgDiv.innerHTML = "<p>লোড হচ্ছে...</p>";
+            msgDiv.innerHTML = "<p>Loading...</p>";
 
             db.collection("messages")
                 .where("user", "==", username)
@@ -74,7 +74,7 @@
                 .get()
                 .then(snapshot => {
                     if (snapshot.empty) {
-                        msgDiv.innerHTML = "<p>তোমাকে কেউ মেসেজ পাঠায়নি</p>";
+                        msgDiv.innerHTML = "<p>তোমাকে কেউ মেসেজ পাঠায়নি!!</p>";
                         return;
                     }
 
